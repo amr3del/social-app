@@ -24,7 +24,7 @@ class PostResource extends JsonResource
             'image' => $this->image,
             'liked' => $liked,
             'likes' => $this->likes()->count(),
-            'comments' => CommentResource::collection($this->comments),
+            // 'comments' => CommentResource::collection($this->comments),
             'user' => new UserResource($this->user),
             'created_at' => Carbon::parse($this->created_at)->diffForHumans()
         ];
