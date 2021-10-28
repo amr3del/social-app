@@ -43,8 +43,25 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function friends()
+    {
+        return $this->belongsToMany('App\Models\User','App\Models\Friend','user_id','friend_id')
+                ->wherePivot('accepted','=',1)
+                ->withPivot('accepted');
+    }
+
     public function posts()
     {
         return $this->hasMany(Post::class);
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }

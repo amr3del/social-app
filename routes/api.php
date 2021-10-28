@@ -2,9 +2,15 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Like\LikeController;
+use App\Http\Controllers\Post\PostController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Post\PostController;
+use App\Http\Controllers\Comment\CommentController;
+use App\Http\Controllers\Friend\UnFriendController;
+use App\Http\Controllers\Profile\ProfileController;
+use App\Http\Controllers\Friend\SendFriendController;
+use App\Http\Controllers\Friend\AcceptFriendController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,5 +31,21 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('login',LoginController::class);
 Route::post('register',RegisterController::class);
 
+// Profile
+Route::resource('profile', ProfileController::class)->only(['index','store']);
+
 // Posts
 Route::apiResource('posts',PostController::class);
+
+// Like 
+Route::post('like',LikeController::class);
+
+// Comment
+Route::post('comment',CommentController::class);
+
+// Friends
+Route::prefix('/friend')->middleware('auth:sanctum')->group(function (){
+    Route::post('/send',SendFriendController::class);
+    Route::post('/accept',AcceptFriendController::class);
+    Route::post('/remove',UnFriendController::class);
+});
